@@ -16,7 +16,7 @@ Examples
 
 from pydra.mark import annotate, task
 from os import PathLike
-from typing import Tuple
+from typing import Optional, Tuple
 
 
 @task
@@ -40,3 +40,14 @@ def parse_bids(in_file: PathLike) -> Tuple[str, str, str, list]:
     extension = f".{extension}"
 
     return datatype, suffix, extension, entities
+
+
+@task
+@annotate({"return": {}})
+def read_bids(
+    bids_dir: PathLike,
+    modalities:
+    subjects: Optional[list] = None,
+    sessions: Optional[list] = None,
+):
+    pass
