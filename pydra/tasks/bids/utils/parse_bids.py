@@ -19,9 +19,7 @@ from pydra.mark import annotate, task
 
 
 @task
-@annotate(
-    {"return": {"entities": dict, "suffix": str, "extension": str}}
-)
+@annotate({"return": {"entities": dict, "suffix": str, "extension": str}})
 def parse_bids(in_file: PathLike) -> Tuple[dict, str, str]:
     """Parse a BIDS filename and extract its BIDS components.
 
