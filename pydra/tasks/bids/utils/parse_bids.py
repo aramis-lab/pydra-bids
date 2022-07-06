@@ -4,14 +4,12 @@ Examples
 
 >>> task = parse_bids(in_file="sub-01/ses-M00/anat/sub-01_ses-M00_T1w.nii.gz")
 >>> result = task()
->>> result.output.datatype
-'anat'
 >>> result.output.suffix
 'T1w'
 >>> result.output.extension
 '.nii.gz'
 >>> result.output.entities
-['sub-01', 'ses-M00']
+{'sub': '01', 'ses': 'M00'}
 """
 
 from os import PathLike
@@ -21,10 +19,8 @@ from pydra.mark import annotate, task
 
 
 @task
-@annotate(
-    {"return": {"datatype": str, "suffix": str, "extension": str, "entities": list}}
-)
-def parse_bids(in_file: PathLike) -> Tuple[str, str, str, list]:
+@annotate({"return": {"entities": dict, "suffix": str, "extension": str}})
+def parse_bids(in_file: PathLike) -> Tuple[dict, str, str]:
     """Parse a BIDS filename and extract its BIDS components.
 
     :param in_file: Path to BIDS file
@@ -34,12 +30,6 @@ def parse_bids(in_file: PathLike) -> Tuple[str, str, str, list]:
     """
     from pathlib import PurePath
 
-    in_file = PurePath(in_file)
-    datatype = in_file.parent.name
-    filename = str(in_file.name)
-    stem, _, extension = filename.partition(".")
-    rest, _, suffix = stem.rpartition("_")
-    entities = list(rest.split("_"))
-    extension = f".{extension}"
+    from ancpbids.utils import parse_bids_name
 
-    return datatype, suffix, extension, entities
+    return tuple(parse_bids_name(PurePath(in_file)).values())
