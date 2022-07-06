@@ -32,6 +32,4 @@ def parse_bids(in_file: PathLike) -> Tuple[dict, str, str]:
 
     from ancpbids.utils import parse_bids_name
 
-    parsed = parse_bids_name(PurePath(in_file).name)
-
-    return parsed["entities"], parsed["suffix"], parsed["extension"]
+    return tuple(parse_bids_name(PurePath(in_file)).values())
