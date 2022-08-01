@@ -1,32 +1,30 @@
-"""
-Examples
---------
-
->>> task = parse_bids(in_file="sub-01/ses-M00/anat/sub-01_ses-M00_T1w.nii.gz")
->>> result = task()
->>> result.output.suffix
-'T1w'
->>> result.output.extension
-'.nii.gz'
->>> result.output.entities
-{'sub': '01', 'ses': 'M00'}
-"""
-
 from os import PathLike
 from typing import Tuple
 
-from pydra.mark import annotate, task
+import pydra.mark
 
 
-@task
-@annotate({"return": {"entities": dict, "suffix": str, "extension": str}})
+@pydra.mark.task
+@pydra.mark.annotate({"return": {"entities": dict, "suffix": str, "extension": str}})
 def parse_bids(in_file: PathLike) -> Tuple[dict, str, str]:
     """Parse a BIDS filename and extract its BIDS components.
 
-    :param in_file: Path to BIDS file
+    :param in_file: Path to the input BIDS file
     :type in_file: os.PathLike
-    :return: A tuple composed of the datatype, suffix, extension and entities
-    :rtype: Tuple[str, str, str, list]
+    :return: A tuple composed of the suffix, extension and entities
+    :rtype: Tuple[str, str, str]
+
+    Examples
+    --------
+
+    >>> task = parse_bids(in_file="sub-01/ses-M00/anat/sub-01_ses-M00_T1w.nii.gz")
+    >>> result = task()
+    >>> result.output.suffix
+    'T1w'
+    >>> result.output.extension
+    '.nii.gz'
+    >>> result.output.entities
+    {'sub': '01', 'ses': 'M00'}
     """
     from pathlib import PurePath
 
