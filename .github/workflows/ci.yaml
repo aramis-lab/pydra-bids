@@ -1,14 +1,32 @@
-name: test
-
+name: ci
 on:
   push:
     branches:
       - main
   pull_request:
     branches:
-      - '*'
-
+      - main
 jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        id: setup-python
+        with:
+          python-version: '3.7'
+      - uses: snok/install-poetry@v1
+        with:
+          virtualenvs-in-project: true
+      - uses: actions/cache@v3
+        id: cache-venv
+        with:
+          path: .venv
+          key: venv-${{ hashFiles('**/pyproject.toml') }}
+      - name: Install dependencies
+        run: make install
+      - name: Lint code
+        run: make lint
   test:
     strategy:
       fail-fast: false
@@ -17,15 +35,15 @@ jobs:
         python-version: ['3.7', '3.8', '3.9', '3.10']
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-python@v2
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
         id: setup-python
         with:
           python-version: ${{ matrix.python-version }}
       - uses: snok/install-poetry@v1
         with:
           virtualenvs-in-project: true
-      - uses: actions/cache@v2
+      - uses: actions/cache@v3
         id: cache-venv
         with:
           path: .venv
