@@ -44,8 +44,8 @@ lint-isort:
 	@$(POETRY) run isort --check --diff $(PACKAGES)
 
 .PHONY: clean-docs
-clean-docs: docs/_build
-	@$(MAKE) -C docs clean
+clean-docs:
+	@$(POETRY) run make -C docs clean
 
 .PHONY: docs
 docs: install-docs clean-docs
