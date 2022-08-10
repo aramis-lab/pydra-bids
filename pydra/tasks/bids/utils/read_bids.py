@@ -17,14 +17,20 @@ DEFAULT_QUERY = {
 def read_bids(output_query: Optional[dict] = None, **kwargs) -> FunctionTask:
     """Generate a BIDS reading task.
 
-    :param output_query: Mapping between output and BIDS query
-    :type: dict
-    :return: BIDS reading task
-    :rtype: pydra.engine.task.FunctionTask
+    Parameters
+    ----------
+    output_query : dict
+        Mapping between output and BIDS query
+    **kwargs
+        Extra arguments passed to the task constructor
+
+    Returns
+    -------
+    pydra.engine.task.FunctionTask
+        BIDS reading task
 
     Examples
     --------
-
     >>> task = read_bids()
     >>> task.output_names
     ['bold', 'T1w']

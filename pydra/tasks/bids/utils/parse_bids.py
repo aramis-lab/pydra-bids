@@ -9,10 +9,16 @@ import pydra.mark
 def parse_bids(in_file: PathLike) -> Tuple[dict, str, str]:
     """Parse a BIDS filename and extract its BIDS components.
 
-    :param in_file: Path to the input BIDS file
+    Parameters
+    ----------
+    in_file : PathLike
+        Path to the input BIDS file
     :type in_file: os.PathLike
-    :return: A tuple composed of the suffix, extension and entities
-    :rtype: Tuple[str, str, str]
+
+    Returns
+    -------
+    Tuple[str, str, str]
+        A tuple composed of the suffix, extension and entities
 
     Examples
     --------
