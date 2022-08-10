@@ -14,7 +14,7 @@ DEFAULT_QUERY = {
 }
 
 
-def read_bids(output_query: Optional[dict] = None) -> FunctionTask:
+def read_bids(output_query: Optional[dict] = None, **kwargs) -> FunctionTask:
     """Generate a BIDS reading task.
 
     :param output_query: Mapping between output and BIDS query
@@ -65,4 +65,6 @@ def read_bids(output_query: Optional[dict] = None) -> FunctionTask:
         bases=(BaseSpec,),
     )
 
-    return FunctionTask(func=inner, input_spec=input_spec, output_spec=output_spec)
+    return FunctionTask(
+        func=inner, input_spec=input_spec, output_spec=output_spec, **kwargs
+    )
