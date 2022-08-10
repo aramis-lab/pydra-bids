@@ -7,9 +7,10 @@ license = "Apache-2.0"
 
 [tool.poetry.dependencies]
 python = "^3.7"
-Sphinx = {version = "^5.0.0", optional = true}
 pydra = "^0.19"
 ancpbids = { git = "https://github.com/ANCPLabOldenburg/ancp-bids", rev = "be3f0fa" }
+Sphinx = {version = "^5.0.0", optional = true}
+numpydoc = {version = "^1.4.0", optional = true}
 
 [tool.poetry.dev-dependencies]
 black = "^22.3.0"
@@ -17,7 +18,7 @@ isort = "^5.10.1"
 pytest = "^7.1.2"
 
 [tool.poetry.extras]
-docs = ["Sphinx"]
+docs = ["Sphinx", "numpydoc"]
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
