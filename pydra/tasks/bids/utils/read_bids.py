@@ -1,28 +1,17 @@
-from typing import Optional
+from typing import Callable, Optional
 
 from pydra.engine.task import FunctionTask
 
-DEFAULT_QUERY = {
-    "bold": {
-        "suffix": "bold",
-        "extension": [".nii", ".nii.gz"],
-    },
-    "T1w": {
-        "suffix": "T1w",
-        "extension": [".nii", ".nii.gz"],
-    },
-}
 
-
-def read_bids(output_query: Optional[dict] = None, **kwargs) -> FunctionTask:
+def make_bids_reader(
+    output_query: Optional[dict] = None,
+) -> Callable[..., FunctionTask]:
     """Generate a BIDS reading task.
 
     Parameters
     ----------
     output_query : dict
         Mapping between output and BIDS query
-    **kwargs
-        Extra arguments passed to the task constructor
 
     Returns
     -------
@@ -31,20 +20,36 @@ def read_bids(output_query: Optional[dict] = None, **kwargs) -> FunctionTask:
 
     Examples
     --------
-    >>> task = read_bids()
+    >>> bids_reader = make_bids_reader()
+    >>> task = bids_reader()
     >>> task.output_names
     ['bold', 'T1w']
     """
-    from os import PathLike
+    import os
 
-    from pydra.engine.specs import BaseSpec, SpecInfo
+    import pydra
 
-    output_query = output_query or DEFAULT_QUERY
+    output_query = output_query or {
+        "bold": {
+            "suffix": "bold",
+            "extension": [".nii", ".nii.gz"],
+        },
+        "T1w": {
+            "suffix": "T1w",
+            "extension": [".nii", ".nii.gz"],
+        },
+    }
 
-    def inner(base_dir):
+    returned = {key: pydra.engine.specs.File for key in list(output_query.keys())}
+
+    @pydra.mark.task
+    @pydra.mark.annotate({"return": returned})
+    def read_bids(base_dir: os.PathLike):
+        from os import fspath
+
         from ancpbids import BIDSLayout
 
-        layout = BIDSLayout(ds_dir=base_dir)
+        layout = BIDSLayout(ds_dir=fspath(base_dir))
 
         results = [
             layout.get(return_type="files", **query)
@@ -53,24 +58,4 @@ def read_bids(output_query: Optional[dict] = None, **kwargs) -> FunctionTask:
 
         return tuple(results) if len(results) > 1 else results[0]
 
-    input_spec = SpecInfo(
-        name="Input",
-        fields=[
-            (
-                "base_dir",
-                PathLike,
-                {"help_string": "Root directory of the BIDS dataset"},
-            ),
-        ],
-        bases=(BaseSpec,),
-    )
-
-    output_spec = SpecInfo(
-        name="Output",
-        fields=[(key, str) for key in list(output_query.keys())],
-        bases=(BaseSpec,),
-    )
-
-    return FunctionTask(
-        func=inner, input_spec=input_spec, output_spec=output_spec, **kwargs
-    )
+    return read_bids
