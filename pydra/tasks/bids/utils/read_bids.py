@@ -1,11 +1,14 @@
-from typing import Callable, Optional
+import os
+import typing as ty
 
 from pydra.engine.task import FunctionTask
 
+import pydra
+
 
 def make_bids_reader(
-    output_query: Optional[dict] = None,
-) -> Callable[..., FunctionTask]:
+    output_query: ty.Optional[dict] = None,
+) -> ty.Callable[..., FunctionTask]:
     """Generate a BIDS reading task.
 
     Parameters
@@ -25,11 +28,6 @@ def make_bids_reader(
     >>> task.output_names
     ['bold', 'T1w']
     """
-    import os
-    import typing as ty
-
-    import pydra
-
     output_query = output_query or {
         "bold": {
             "suffix": "bold",
@@ -69,3 +67,52 @@ def make_bids_reader(
         return tuple(results) if len(results) > 1 else results[0]
 
     return read_bids
+
+
+@pydra.mark.task
+@pydra.mark.annotate({"return": {"subjects": ty.Iterable[str]}})
+def query_subjects(
+    base_dir: os.PathLike, allowed_subjects: ty.Optional[ty.Iterable[str]] = None
+):
+    from os import fspath
+
+    from ancpbids import BIDSLayout
+
+    layout = BIDSLayout(ds_dir=fspath(base_dir))
+
+    subjects = layout.get_subjects()
+
+    if allowed_subjects:
+        subjects = list(set(subjects).intersection(allowed_subjects))
+
+    return subjects
+
+
+@pydra.mark.task
+@pydra.mark.annotate(
+    {"return": {"subjects": ty.Iterable[str], "sessions": ty.Iterable[str]}}
+)
+def query_subjects_and_sessions(
+    base_dir: os.PathLike,
+    allowed_subject_session_pairs: ty.Optional[ty.Iterable[ty.Tuple[str, str]]] = None,
+):
+    from os import fspath
+
+    from ancpbids import BIDSLayout
+
+    layout = BIDSLayout(ds_dir=fspath(base_dir))
+
+    subject_session_pairs = set(
+        [
+            (subject, session)
+            for subject in layout.get_subjects()
+            for session in layout.get_sessions(subject=subject)
+        ]
+    )
+
+    if allowed_subject_session_pairs:
+        subject_session_pairs = subject_session_pairs.intersection(
+            allowed_subject_session_pairs
+        )
+
+    return tuple(zip(*subject_session_pairs))
