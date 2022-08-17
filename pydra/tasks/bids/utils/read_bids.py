@@ -26,6 +26,7 @@ def make_bids_reader(
     ['bold', 'T1w']
     """
     import os
+    import typing as ty
 
     import pydra
 
@@ -44,7 +45,11 @@ def make_bids_reader(
 
     @pydra.mark.task
     @pydra.mark.annotate({"return": returned})
-    def read_bids(base_dir: os.PathLike):
+    def read_bids(
+        base_dir: os.PathLike,
+        subject: ty.Optional[str] = None,
+        session: ty.Optional[str] = None,
+    ):
         from os import fspath
 
         from ancpbids import BIDSLayout
@@ -52,7 +57,12 @@ def make_bids_reader(
         layout = BIDSLayout(ds_dir=fspath(base_dir))
 
         results = [
-            layout.get(return_type="files", **query)
+            layout.get(
+                return_type="files",
+                subject=subject or "*",
+                session=session or "*",
+                **query,
+            )
             for key, query in list(output_query.items())
         ]
 
