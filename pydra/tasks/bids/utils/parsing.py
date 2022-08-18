@@ -1,3 +1,5 @@
+"""Tasks for parsing BIDS components."""
+
 from os import PathLike
 from typing import Tuple
 
