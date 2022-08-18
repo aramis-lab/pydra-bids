@@ -1,3 +1,5 @@
+"""Tasks for reading and querying BIDS datasets."""
+
 import os
 import typing as ty
 
