@@ -16,12 +16,12 @@ def make_bids_reader(
     Parameters
     ----------
     output_query : dict
-        Mapping between output and BIDS query
+        Mapping from output name to BIDS query.
 
     Returns
     -------
     pydra.engine.task.FunctionTask
-        BIDS reading task
+        The corresponding BIDS reading task.
 
     Examples
     --------
@@ -76,6 +76,20 @@ def make_bids_reader(
 def query_subjects(
     base_dir: os.PathLike, allowed_subjects: ty.Optional[ty.Iterable[str]] = None
 ):
+    """Query the list of subjects from a BIDS dataset.
+
+    Parameters
+    ----------
+    base_dir : os.PathLike
+        Root path to the BIDS dataset.
+    allowed_subjects : iterable, optional
+        List of allowed subjects used as a filter.
+
+    Returns
+    -------
+    iterable
+        List of subjects found in the dataset.
+    """
     from os import fspath
 
     from ancpbids import BIDSLayout
@@ -98,6 +112,22 @@ def query_subjects_and_sessions(
     base_dir: os.PathLike,
     allowed_subject_session_pairs: ty.Optional[ty.Iterable[ty.Tuple[str, str]]] = None,
 ):
+    """Query the list of subject-session pairs from a BIDS dataset.
+
+    Parameters
+    ----------
+    base_dir : os.PathLike
+        Root path to the BIDS dataset.
+    allowed_subject_session_pairs : iterable, optional
+        List of allowed subject-session pairs used as a filter.
+
+    Returns
+    -------
+    subjects : iterable
+        List of subjects found in the dataset.
+    sessions : iterable
+        List of sessions found in the dataset.
+    """
     from os import fspath
 
     from ancpbids import BIDSLayout

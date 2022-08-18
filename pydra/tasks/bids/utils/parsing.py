@@ -18,8 +18,12 @@ def parse_bids(in_file: os.PathLike) -> ty.Tuple[dict, str, str]:
 
     Returns
     -------
-    tuple
-        A tuple composed of the suffix, extension and entities.
+    entities: dict
+        The entities composing the BIDS file as a mapping from prefix to value.
+    suffix: str
+        The suffix of the BIDS file.
+    extension: str
+        The extension of the BIDS file.
 
     Examples
     --------
