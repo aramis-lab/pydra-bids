@@ -1,26 +1,25 @@
 """Tasks for parsing BIDS components."""
 
-from os import PathLike
-from typing import Tuple
+import os
+import typing as ty
 
-import pydra.mark
+import pydra
 
 
 @pydra.mark.task
 @pydra.mark.annotate({"return": {"entities": dict, "suffix": str, "extension": str}})
-def parse_bids(in_file: PathLike) -> Tuple[dict, str, str]:
+def parse_bids(in_file: os.PathLike) -> ty.Tuple[dict, str, str]:
     """Parse a BIDS filename and extract its BIDS components.
 
     Parameters
     ----------
-    in_file : PathLike
-        Path to the input BIDS file
-    :type in_file: os.PathLike
+    in_file : os.PathLike
+        Path to the input BIDS file.
 
     Returns
     -------
-    Tuple[str, str, str]
-        A tuple composed of the suffix, extension and entities
+    tuple
+        A tuple composed of the suffix, extension and entities.
 
     Examples
     --------
