@@ -45,11 +45,12 @@ def make_bids_reader(
 
     @pydra.mark.task
     @pydra.mark.annotate({"return": returned})
-    def read_bids(
+    def query_files(
         base_dir: os.PathLike,
-        subject: ty.Optional[str] = None,
-        session: ty.Optional[str] = None,
+        subject: ty.Optional[ty.Union[str, ty.Iterable[str]]] = None,
+        session: ty.Optional[ty.Union[str, ty.Iterable[str]]] = None,
     ):
+        """Query files from a BIDS dataset."""
         from os import fspath
 
         from ancpbids import BIDSLayout
@@ -68,7 +69,7 @@ def make_bids_reader(
 
         return tuple(results) if len(results) > 1 else results[0]
 
-    return read_bids
+    return query_files
 
 
 @pydra.mark.task
