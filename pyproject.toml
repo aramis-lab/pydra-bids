@@ -10,8 +10,11 @@ python = "^3.7"
 pydra = "^0.19"
 ancpbids = { git = "https://github.com/ANCPLabOldenburg/ancp-bids", rev = "be3f0fa" }
 
-[tool.poetry.dev-dependencies]
-black = "^22.3.0"
+[tool.poetry.group.dev]
+optional = true
+
+[tool.poetry.group.dev.dependencies]
+black = "^22.8.0"
 isort = "^5.10.1"
 
 [tool.poetry.group.docs]
