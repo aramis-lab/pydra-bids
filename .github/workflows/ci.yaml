@@ -23,8 +23,6 @@ jobs:
         with:
           path: .venv
           key: venv-${{ hashFiles('**/pyproject.toml') }}
-      - name: Install dependencies
-        run: make install
       - name: Lint code
         run: make lint
   test:
@@ -48,7 +46,5 @@ jobs:
         with:
           path: .venv
           key: venv-${{ runner.os }}-${{ steps.setup-python.outputs.python-version }}-${{ hashFiles('**/pyproject.toml') }}
-      - name: Install dependencies
-        run: make install
       - name: Run tests
         run: make test
