@@ -10,20 +10,12 @@ env:
 install:
 	@$(POETRY) install
 
-.PHONY: install-dev
-install-dev:
-	@$(POETRY) install --only dev
-
 .PHONY: install-docs
 install-docs:
 	@$(POETRY) install --only docs
 
-.PHONY: install-test
-install-test:
-	@$(POETRY) install --with test
-
 .PHONY: format
-format: install-dev format-black format-isort
+format: format-black format-isort
 
 .PHONY: format-black
 format-black:
@@ -36,7 +28,7 @@ format-isort:
 	@$(POETRY) run isort --quiet $(PACKAGES)
 
 .PHONY: lint
-lint: install-dev lint-black lint-isort
+lint: lint-black lint-isort
 
 .PHONY: lint-black
 lint-black:
@@ -53,9 +45,9 @@ clean-docs:
 	@$(POETRY) run make -C docs clean
 
 .PHONY: docs
-docs: install-docs clean-docs
+docs: clean-docs
 	@$(POETRY) run make -C docs html
 
 .PHONY: test
-test: install-test
+test:
 	@$(POETRY) run python -m pytest
