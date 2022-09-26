@@ -51,3 +51,7 @@ docs: clean-docs
 .PHONY: test
 test:
 	@$(POETRY) run python -m pytest
+
+.PHONY: update
+update:
+	@$(POETRY) update
