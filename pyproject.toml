@@ -21,9 +21,6 @@ optional = true
 Sphinx = "^5"
 numpydoc = "^1.4"
 
-[tool.poetry.group.test]
-optional = true
-
 [tool.poetry.group.test.dependencies]
 pytest = "^7"
 
