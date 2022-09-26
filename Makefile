@@ -15,7 +15,7 @@ install-docs:
 	@$(POETRY) install --only docs
 
 .PHONY: format
-format: format-black format-isort
+format: install format-black format-isort
 
 .PHONY: format-black
 format-black:
@@ -28,7 +28,7 @@ format-isort:
 	@$(POETRY) run isort --quiet $(PACKAGES)
 
 .PHONY: lint
-lint: lint-black lint-isort
+lint: install lint-black lint-isort
 
 .PHONY: lint-black
 lint-black:
@@ -45,11 +45,11 @@ clean-docs:
 	@$(POETRY) run make -C docs clean
 
 .PHONY: docs
-docs: clean-docs
+docs: install-docs clean-docs
 	@$(POETRY) run make -C docs html
 
 .PHONY: test
-test:
+test: install
 	@$(POETRY) run python -m pytest
 
 .PHONY: update
