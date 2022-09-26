@@ -11,18 +11,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - uses: snok/install-poetry@v1
       - uses: actions/setup-python@v4
         id: setup-python
         with:
-          python-version: '3.7'
-      - uses: snok/install-poetry@v1
-        with:
-          virtualenvs-in-project: true
-      - uses: actions/cache@v3
-        id: cache-venv
-        with:
-          path: .venv
-          key: venv-${{ hashFiles('**/pyproject.toml') }}
+          python-version: '3.10'
+          cache: poetry
+      - name: Install dependencies
+        run: make install
       - name: Lint code
         run: make lint
   test:
@@ -34,17 +30,13 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v3
+      - uses: snok/install-poetry@v1
       - uses: actions/setup-python@v4
         id: setup-python
         with:
           python-version: ${{ matrix.python-version }}
-      - uses: snok/install-poetry@v1
-        with:
-          virtualenvs-in-project: true
-      - uses: actions/cache@v3
-        id: cache-venv
-        with:
-          path: .venv
-          key: venv-${{ runner.os }}-${{ steps.setup-python.outputs.python-version }}-${{ hashFiles('**/pyproject.toml') }}
+          cache: poetry
+      - name: Install dependencies
+        run: make install
       - name: Run tests
         run: make test
