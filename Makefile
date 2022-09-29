@@ -1,10 +1,7 @@
 POETRY ?= poetry
 PACKAGES = pydra
-CONDA ?= conda
 
-.PHONY: env
-env:
-	@$(CONDA) create -y -p ./.venv poetry
+all: install test
 
 .PHONY: install
 install:
@@ -15,7 +12,7 @@ install-docs:
 	@$(POETRY) install --only docs
 
 .PHONY: format
-format: install format-black format-isort
+format: format-black format-isort
 
 .PHONY: format-black
 format-black:
@@ -28,7 +25,7 @@ format-isort:
 	@$(POETRY) run isort --quiet $(PACKAGES)
 
 .PHONY: lint
-lint: install lint-black lint-isort
+lint: lint-black lint-isort
 
 .PHONY: lint-black
 lint-black:
@@ -45,11 +42,11 @@ clean-docs:
 	@$(POETRY) run make -C docs clean
 
 .PHONY: docs
-docs: install-docs clean-docs
+docs: clean-docs
 	@$(POETRY) run make -C docs html
 
 .PHONY: test
-test: install
+test:
 	@$(POETRY) run python -m pytest
 
 .PHONY: update
