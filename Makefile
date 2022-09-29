@@ -1,15 +1,13 @@
+.EXPORT_ALL_VARIABLES:
+
+ifneq (,$(wildcard .env))
+include .env
+endif
+
 POETRY ?= poetry
 PACKAGES = pydra
 
-all: install test build
-
-.PHONY: build
-build: clean
-	@$(POETRY) build
-
-.PHONY: clean
-clean:
-	$(RM) -rf dist
+all: install test
 
 .PHONY: install
 install:
@@ -60,3 +58,26 @@ test:
 .PHONY: update
 update:
 	@$(POETRY) update
+
+.PHONY: publish
+publish: publish-pypi
+
+.PHONY: publish-pypi
+publish-pypi: clean dist
+ifdef PYPI_API_TOKEN
+	@$(POETRY) publish --build --username __token__ --password $(PYPI_API_TOKEN)
+else
+	$(error PyPI API token not provided.)
+endif
+
+.PHONY: publish-testpypi
+publish-testpypi: config-testpypi clean dist
+ifdef TESTPYPI_API_TOKEN
+	@$(POETRY) publish --build --repository testpypi --username __token__ --password $(TESTPYPI_API_TOKEN)
+else
+	$(error TestPyPI API token not provided.)
+endif
+
+.PHONY: config-testpypi
+config-testpypi:
+	@$(POETRY) config repositories.testpypi https://test.pypi.org/legacy
