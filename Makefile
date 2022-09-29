@@ -1,7 +1,15 @@
 POETRY ?= poetry
 PACKAGES = pydra
 
-all: install test
+all: install test build
+
+.PHONY: build
+build: clean
+	@$(POETRY) build
+
+.PHONY: clean
+clean:
+	$(RM) -rf dist
 
 .PHONY: install
 install:
