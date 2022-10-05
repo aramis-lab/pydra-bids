@@ -36,7 +36,7 @@ jobs:
           python-version: ${{ env.DEFAULT_PYTHON_VERSION }}
           cache: poetry
       - name: Install dependencies
-        run: make install-docs
+        run: make install
       - name: Build documentation
         run: make docs
   test:

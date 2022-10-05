@@ -37,7 +37,7 @@ config-testpypi:
 	@$(POETRY) config repositories.testpypi https://test.pypi.org/legacy
 
 .PHONY: docs
-docs: install-docs clean-docs
+docs: $(INSTALL_STAMP) clean-docs
 	@$(POETRY) run make -C docs html
 
 .PHONY: format
@@ -58,10 +58,6 @@ install: $(INSTALL_STAMP)
 $(INSTALL_STAMP): poetry.lock pyproject.toml
 	@$(POETRY) install
 	@touch $(INSTALL_STAMP)
-
-.PHONY: install-docs
-install-docs:
-	@$(POETRY) install --only docs
 
 .PHONY: publish
 publish: publish-pypi
