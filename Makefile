@@ -24,9 +24,12 @@ check-isort: $(INSTALL_STAMP)
 	@$(POETRY) run isort --check --diff $(PACKAGES)
 
 .PHONY: clean
-clean:
+clean: clean-dist clean-docs
+	$(RM) $(INSTALL_STAMP)
+
+.PHONY: clean-dist
+clean-dist:
 	$(RM) -r dist
-	$(RM) -f $(INSTALL_STAMP)
 
 .PHONY: clean-docs
 clean-docs:
