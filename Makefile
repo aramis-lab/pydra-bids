@@ -1,6 +1,8 @@
 POETRY ?= poetry
 PACKAGES = pydra
 INSTALL_STAMP = .install.stamp
+LOCK_FILE = poetry.lock
+PROJECT_FILE = pyproject.toml
 
 ifneq (,$(wildcard .env))
 include .env
@@ -22,6 +24,10 @@ check-black: $(INSTALL_STAMP)
 check-isort: $(INSTALL_STAMP)
 	$(info Checking code with isort)
 	@$(POETRY) run isort --check --diff $(PACKAGES)
+
+.PHONY: check-lock
+check-lock:
+	@$(POETRY) lock --check
 
 .PHONY: clean
 clean: clean-dist clean-docs
@@ -57,10 +63,15 @@ format-isort: $(INSTALL_STAMP)
 	@$(POETRY) run isort --quiet $(PACKAGES)
 
 .PHONY: install
-install: $(INSTALL_STAMP)
-$(INSTALL_STAMP): poetry.lock pyproject.toml
+install: check-lock $(INSTALL_STAMP)
+$(INSTALL_STAMP): $(LOCK_FILE)
 	@$(POETRY) install
 	@touch $(INSTALL_STAMP)
+
+.PHONY: lock
+lock: $(LOCK_FILE)
+$(LOCK_FILE): $(PROJECT_FILE)
+	@$(POETRY) lock --no-update
 
 .PHONY: publish
 publish: publish-pypi
@@ -86,5 +97,5 @@ test: $(INSTALL_STAMP)
 	@$(POETRY) run python -m pytest
 
 .PHONY: update
-update: pyproject.toml
+update: $(PROJECT_FILE)
 	@$(POETRY) update
