@@ -26,7 +26,7 @@ check-isort: $(INSTALL_STAMP)
 	@$(POETRY) run isort --check --diff $(PACKAGES)
 
 .PHONY: check-lock
-check-lock:
+check-lock: $(PROJECT_FILE)
 	@$(POETRY) lock --check
 
 .PHONY: clean
