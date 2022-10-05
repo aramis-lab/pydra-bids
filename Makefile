@@ -30,7 +30,7 @@ clean:
 
 .PHONY: clean-docs
 clean-docs:
-	@$(POETRY) run make -C docs clean
+	$(RM) -r docs/_build
 
 .PHONY: config-testpypi
 config-testpypi:
