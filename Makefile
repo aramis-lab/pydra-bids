@@ -45,6 +45,9 @@ clean-docs:
 config-testpypi:
 	@$(POETRY) config repositories.testpypi https://test.pypi.org/legacy
 
+dist: $(PROJECT_FILE) clean-dist
+	@$(POETRY) build
+
 .PHONY: docs
 docs: $(INSTALL_STAMP) clean-docs
 	@$(POETRY) run make -C docs html
@@ -77,17 +80,17 @@ $(LOCK_FILE): $(PROJECT_FILE)
 publish: publish-pypi
 
 .PHONY: publish-pypi
-publish-pypi:
+publish-pypi: dist
 ifdef PYPI_API_TOKEN
-	@$(POETRY) publish --build --username __token__ --password $(PYPI_API_TOKEN)
+	@$(POETRY) publish --username __token__ --password $(PYPI_API_TOKEN)
 else
 	$(error PyPI API token not provided)
 endif
 
 .PHONY: publish-testpypi
-publish-testpypi: config-testpypi
+publish-testpypi: dist config-testpypi
 ifdef TESTPYPI_API_TOKEN
-	@$(POETRY) publish --build --username __token__ --password $(TESTPYPI_API_TOKEN) --repository testpypi
+	@$(POETRY) publish --username __token__ --password $(TESTPYPI_API_TOKEN) --repository testpypi
 else
 	$(error TestPyPI API token not provided)
 endif
