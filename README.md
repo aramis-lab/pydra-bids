@@ -11,36 +11,35 @@ This project provides tasks for reading from and writing to BIDS datasets.
 
 ## Development
 
-Setup for development requires [Poetry].
+This project is managed using [Poetry].
 
-Install the project and its dependencies with:
+To install, check and test the code:
 
 ```console
-make install
+make
 ```
 
-Run the tests with:
+To run the test suite when hacking:
 
 ```console
 make test
 ```
 
-Build the project's documentation with:
-
-```console
-make docs
-```
-
-Format the code before review with:
+To format the code before review:
 
 ```console
 make format
 ```
 
+To build the project's documentation:
+
+```console
+make docs
+```
+
 ## Licensing
 
 This project is released under the terms of the Apache License 2.0.
-
 
 [Pydra]: https://nipype.github.io/pydra
 [BIDS]: https://bids-specification.readthedocs.io
