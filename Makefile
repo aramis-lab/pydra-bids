@@ -22,8 +22,12 @@ check-lock:
 	@$(POETRY) lock --check
 
 .PHONY: clean
-clean: clean-docs clean-test
+clean: clean-dist clean-docs clean-test
 	@$(RM) $(INSTALL_STAMP)
+
+.PHONY: clean-dist
+clean-dist:
+	@$(RM) -r dist
 
 .PHONY: clean-docs
 clean-docs:
@@ -36,6 +40,9 @@ clean-py:
 .PHONY: clean-test
 clean-test: clean-py
 	@$(RM) -r .pytest_cache
+
+dist: clean-dist
+	@$(POETRY) build
 
 .PHONY: docs
 docs: clean-docs install
