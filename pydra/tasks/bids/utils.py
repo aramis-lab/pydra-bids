@@ -9,8 +9,8 @@ __all__ = ["bids_info", "bids_data_reader", "bids_data_writer"]
 @pydra.mark.annotate(
     {
         "return": {
-            "subject_label": str,
-            "session_label": str,
+            "participant_id": str,
+            "session_id": str,
             "entities": dict,
             "suffix": str,
             "extension": str,
@@ -24,8 +24,8 @@ def bids_info(in_file: os.PathLike):
     --------
     >>> task = bids_info(in_file="sub-P01_T1w.nii.gz")
     >>> result = task()
-    >>> result.output.subject_label
-    'P01'
+    >>> result.output.participant_id
+    'sub-P01'
     >>> result.output.suffix
     'T1w'
     >>> result.output.extension
@@ -33,16 +33,17 @@ def bids_info(in_file: os.PathLike):
 
     >>> task = bids_info(in_file="sub-P01_ses-M00_trc-18FFDG_pet.nii.gz")
     >>> result = task()
-    >>> result.output.subject_label
-    'P01'
-    >>> result.output.session_label
-    'M00'
+    >>> result.output.participant_id
+    'sub-P01'
+    >>> result.output.session_id
+    'ses-M00'
     >>> result.output.suffix
     'pet'
     >>> result.output.entities.get("trc")
     '18FFDG'
     """
     from pathlib import PurePath
+
     from ancpbids.utils import parse_bids_name
 
     parsed = parse_bids_name(PurePath(in_file))
@@ -51,13 +52,17 @@ def bids_info(in_file: os.PathLike):
     suffix = parsed["suffix"]
     extension = parsed["extension"]
 
+    subject_label = entities.get("sub")
+    session_label = entities.get("ses")
+
     return (
-        entities.get("sub"),    # subject_label
-        entities.get("ses"),    # session_label
+        f"sub-{subject_label}" if subject_label else None,
+        f"ses-{session_label}" if session_label else None,
         entities,
         suffix,
         extension,
     )
+
 
 def bids_data_reader():
     pass
