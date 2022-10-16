@@ -42,11 +42,9 @@ def bids_info(in_file: os.PathLike):
     >>> result.output.entities.get("trc")
     '18FFDG'
     """
-    from pathlib import PurePath
-
     from ancpbids.utils import parse_bids_name
 
-    parsed = parse_bids_name(PurePath(in_file))
+    parsed = parse_bids_name(os.fspath(in_file))
 
     entities = parsed["entities"]
     suffix = parsed["suffix"]
