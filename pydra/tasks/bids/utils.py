@@ -1,3 +1,4 @@
+import dataclasses
 import os
 import typing as ty
 
@@ -110,6 +111,53 @@ def make_bids_data_reader(output_query: ty.Optional[dict] = None):
         return tuple(results) if len(results) > 1 else results[0]
 
     return query_files
+
+
+@dataclasses.dataclass
+class BIDSDataReader:
+    output_query: dict
+
+    @property
+    def input_spec(self) -> pydra.specs.SpecInfo:
+        return pydra.specs.SpecInfo(
+            name="BIDSDataReaderInput",
+            fields=[("dataset_path", os.PathLike)],
+            bases=(pydra.specs.BaseSpec,),
+        )
+
+    @property
+    def output_spec(self) -> pydra.specs.SpecInfo:
+        return pydra.specs.SpecInfo(
+            name="BIDSDataReaderOutput",
+            fields=[(key, str) for key in list(self.output_query.keys())],
+            bases=(pydra.specs.BaseSpec,),
+        )
+
+    def query_files(self, dataset_path: os.PathLike) -> dict:
+        from os import fspath
+
+        from ancpbids import BIDSLayout
+
+        layout = BIDSLayout(ds_dir=fspath(dataset_path))
+
+        return {
+            key: layout.get(
+                return_type="files",
+                subject="*",
+                session="*",
+                **query,
+            )
+            for key, query in list(self.output_query.items())
+        }
+
+    def to_task(self, *args, **kwargs) -> pydra.engine.task.FunctionTask:
+        return pydra.engine.task.FunctionTask(
+            func=self.query_files,
+            input_spec=self.input_spec,
+            output_spec=self.output_spec,
+            *args,
+            **kwargs,
+        )
 
 
 def bids_data_writer():
