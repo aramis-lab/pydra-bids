@@ -1,19 +1,18 @@
 POETRY ?= poetry
 PACKAGES = pydra
-INSTALL_STAMP = .install.stamp
 
-all: clean install check test
+all: install check test
 
 .PHONY: check
 check: check-black check-isort
 
 .PHONY: check-black
-check-black: install
+check-black:
 	$(info Checking code with black)
 	@$(POETRY) run black --check --diff $(PACKAGES)
 
 .PHONY: check-isort
-check-isort: install
+check-isort:
 	$(info Checking code with isort)
 	@$(POETRY) run isort --check --diff $(PACKAGES)
 
@@ -38,41 +37,39 @@ clean-py:
 	@find . -name __pycache__ -exec $(RM) -r {} +
 
 .PHONY: clean-test
-clean-test: clean-py
+clean-test:
 	@$(RM) -r .pytest_cache
 
 dist: clean-dist
 	@$(POETRY) build
 
 .PHONY: docs
-docs: clean-docs install
+docs: clean-docs
 	@$(POETRY) run make -C docs html
 
 .PHONY: format
 format: format-black format-isort
 
 .PHONY: format-black
-format-black: install
+format-black:
 	$(info Formatting code with black)
 	@$(POETRY) run black --quiet $(PACKAGES)
 
 .PHONY: format-isort
-format-isort: install
+format-isort:
 	$(info Formatting code with isort)
 	@$(POETRY) run isort --quiet $(PACKAGES)
 
 .PHONY: install
-install: $(INSTALL_STAMP)
-$(INSTALL_STAMP): check-lock
+install: check-lock
 	@$(POETRY) install
-	@touch $(INSTALL_STAMP)
 
 .PHONY: lock
 lock:
 	@$(POETRY) lock --no-update
 
 .PHONY: test
-test: clean-test install
+test: clean-test
 	@$(POETRY) run pytest
 
 .PHONY: update
