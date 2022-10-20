@@ -24,21 +24,24 @@ def bids_info(in_file: os.PathLike):
 
     Examples
     --------
-    >>> task = bids_info(in_file="sub-P01_T1w.nii.gz")
-    >>> result = task()
-    >>> result.output.participant_id
-    'sub-P01'
-    >>> result.output.suffix
-    'T1w'
-    >>> result.output.extension
-    '.nii.gz'
 
-    >>> task = bids_info(in_file="sub-P01_ses-M00_trc-18FFDG_pet.nii.gz")
+    Parse the main components of a BIDS file:
+
+    >>> task = bids_info(in_file="sub-P01_ses-M00_T1w.nii.gz")
     >>> result = task()
     >>> result.output.participant_id
     'sub-P01'
     >>> result.output.session_id
     'ses-M00'
+    >>> result.output.suffix
+    'T1w'
+    >>> result.output.extension
+    '.nii.gz'
+
+    Other source entities are provided as a dictionary in a separate `entities` output:
+
+    >>> task = bids_info(in_file="sub-P01_trc-18FFDG_pet.nii.gz")
+    >>> result = task()
     >>> result.output.suffix
     'pet'
     >>> result.output.entities.get("trc")
@@ -134,11 +137,9 @@ class BIDSDataReader:
         )
 
     def query_files(self, dataset_path: os.PathLike) -> dict:
-        from os import fspath
+        import ancpbids
 
-        from ancpbids import BIDSLayout
-
-        layout = BIDSLayout(ds_dir=fspath(dataset_path))
+        layout = ancpbids.BIDSLayout(ds_dir=os.fspath(dataset_path))
 
         return {
             key: layout.get(
