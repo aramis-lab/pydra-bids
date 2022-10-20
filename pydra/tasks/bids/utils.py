@@ -118,6 +118,31 @@ def make_bids_data_reader(output_query: ty.Optional[dict] = None):
 
 @dataclasses.dataclass
 class BIDSFileInfo:
+    """Parse components of a BIDS file.
+
+    Examples
+    --------
+
+    Parse the main components of a BIDS file:
+
+    >>> task = BIDSFileInfo().to_task(name="bids_file_info")
+    >>> result = task(bids_file="sub-P01_ses-M00_T1w.nii.gz")
+    >>> result.output.participant_id
+    'sub-P01'
+    >>> result.output.session_id
+    'ses-M00'
+    >>> result.output.suffix
+    'T1w'
+    >>> result.output.extension
+    '.nii.gz'
+
+    Additional source entities can be provided if specified as `output_entities`:
+
+    >>> task = BIDSFileInfo(output_entities=["trc"]).to_task(name="bids_file_info")
+    >>> result = task(bids_file="sub-P01_trc-18FFDG_pet.nii.gz")
+    >>> result.output.trc
+    '18FFDG'
+    """
 
     output_entities: list = dataclasses.field(default_factory=list)
 
