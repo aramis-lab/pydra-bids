@@ -118,7 +118,12 @@ def make_bids_data_reader(output_query: ty.Optional[dict] = None):
 
 @dataclasses.dataclass
 class BIDSDataReader:
-    output_query: dict
+    output_query: dict = dataclasses.field(
+        default_factory=lambda: {
+            "T1w": {"suffix": "T1w", "extension": ["nii", "nii.gz"]},
+            "bold": {"suffix": "bold", "extension": ["nii", "nii.gz"]},
+        },
+    )
 
     def __call__(self, dataset_path: os.PathLike) -> dict:
         import ancpbids
