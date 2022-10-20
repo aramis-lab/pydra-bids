@@ -1,6 +1,15 @@
 import pydra.tasks.bids.utils as utils
 
 
+def test_bfi_defaults():
+    task = utils.BIDSFileInfo().to_task(name="test")
+
+    assert "bids_file" in task.input_names
+    assert {"participant_id", "session_id", "entities", "suffix", "extension"} == set(
+        task.output_names
+    )
+
+
 def test_bdr_defaults():
     task = utils.BIDSDataReader().to_task(name="test")
 
