@@ -21,7 +21,7 @@ check-lock:
 	@$(POETRY) lock --check
 
 .PHONY: clean
-clean: clean-dist clean-docs clean-test
+clean: clean-dist clean-docs clean-py clean-test
 	@$(RM) $(INSTALL_STAMP)
 
 .PHONY: clean-dist
