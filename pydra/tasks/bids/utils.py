@@ -15,7 +15,7 @@ class BIDSFileInfo:
 
     Parse the main components of a BIDS file:
 
-    >>> task = BIDSFileInfo().to_task(name="bids_file_info")
+    >>> task = BIDSFileInfo().to_task()
     >>> result = task(bids_file="sub-P01_ses-M00_T1w.nii.gz")
     >>> result.output.participant_id
     'sub-P01'
@@ -28,7 +28,7 @@ class BIDSFileInfo:
 
     Additional source entities can be provided if specified as `output_entities`:
 
-    >>> task = BIDSFileInfo(output_entities={"tracer": "trc"}).to_task(name="bids_file_info")
+    >>> task = BIDSFileInfo(output_entities={"tracer": "trc"}).to_task()
     >>> result = task(bids_file="sub-P01_trc-18FFDG_pet.nii.gz")
     >>> result.output.tracer
     '18FFDG'
@@ -87,12 +87,14 @@ class BIDSFileInfo:
             bases=(pydra.specs.BaseSpec,),
         )
 
-    def to_task(self, *args, **kwargs) -> pydra.engine.task.FunctionTask:
+    def to_task(
+        self, name: str = "bids_file_info", **kwargs
+    ) -> pydra.engine.task.FunctionTask:
         return pydra.engine.task.FunctionTask(
             func=self,
             input_spec=self.input_spec,
             output_spec=self.output_spec,
-            *args,
+            name=name,
             **kwargs,
         )
 
@@ -137,11 +139,13 @@ class BIDSDataReader:
             bases=(pydra.specs.BaseSpec,),
         )
 
-    def to_task(self, *args, **kwargs) -> pydra.engine.task.FunctionTask:
+    def to_task(
+        self, name: str = "bids_data_reader", **kwargs
+    ) -> pydra.engine.task.FunctionTask:
         return pydra.engine.task.FunctionTask(
             func=self,
             input_spec=self.input_spec,
             output_spec=self.output_spec,
-            *args,
+            name=name,
             **kwargs,
         )
