@@ -138,13 +138,13 @@ class BIDSFileInfo:
 
     Additional source entities can be provided if specified as `output_entities`:
 
-    >>> task = BIDSFileInfo(output_entities=["trc"]).to_task(name="bids_file_info")
+    >>> task = BIDSFileInfo(output_entities={"tracer": "trc"}).to_task(name="bids_file_info")
     >>> result = task(bids_file="sub-P01_trc-18FFDG_pet.nii.gz")
-    >>> result.output.trc
+    >>> result.output.tracer
     '18FFDG'
     """
 
-    output_entities: list = dataclasses.field(default_factory=list)
+    output_entities: dict = dataclasses.field(default_factory=dict)
 
     def __call__(self, bids_file: os.PathLike):
         from ancpbids.utils import parse_bids_name
@@ -164,7 +164,9 @@ class BIDSFileInfo:
         session_id = f"ses-{session_label}" if session_label else None
 
         # Extract extra entities to provide as output.
-        extra_entities = [entities.get(entity) for entity in self.output_entities]
+        extra_entities = [
+            entities.get(entity) for entity in self.output_entities.values()
+        ]
 
         return tuple(
             [participant_id, session_id, entities, suffix, extension] + extra_entities
@@ -187,7 +189,7 @@ class BIDSFileInfo:
             ("entities", dict),
             ("suffix", str),
             ("extension", str),
-        ] + [(entity, str) for entity in self.output_entities]
+        ] + [(entity, str) for entity in self.output_entities.keys()]
 
         return pydra.specs.SpecInfo(
             name="BIDSFileInfoOutput",
