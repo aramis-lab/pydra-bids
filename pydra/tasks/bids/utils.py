@@ -120,6 +120,21 @@ def make_bids_data_reader(output_query: ty.Optional[dict] = None):
 class BIDSDataReader:
     output_query: dict
 
+    def __call__(self, dataset_path: os.PathLike) -> dict:
+        import ancpbids
+
+        layout = ancpbids.BIDSLayout(ds_dir=os.fspath(dataset_path))
+
+        return {
+            key: layout.get(
+                return_type="files",
+                subject="*",
+                session="*",
+                **query,
+            )
+            for key, query in list(self.output_query.items())
+        }
+
     @property
     def input_spec(self) -> pydra.specs.SpecInfo:
         return pydra.specs.SpecInfo(
@@ -136,24 +151,9 @@ class BIDSDataReader:
             bases=(pydra.specs.BaseSpec,),
         )
 
-    def query_files(self, dataset_path: os.PathLike) -> dict:
-        import ancpbids
-
-        layout = ancpbids.BIDSLayout(ds_dir=os.fspath(dataset_path))
-
-        return {
-            key: layout.get(
-                return_type="files",
-                subject="*",
-                session="*",
-                **query,
-            )
-            for key, query in list(self.output_query.items())
-        }
-
     def to_task(self, *args, **kwargs) -> pydra.engine.task.FunctionTask:
         return pydra.engine.task.FunctionTask(
-            func=self.query_files,
+            func=self,
             input_spec=self.input_spec,
             output_spec=self.output_spec,
             *args,
