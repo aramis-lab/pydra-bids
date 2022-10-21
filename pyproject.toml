@@ -5,7 +5,7 @@ description = "Pydra tasks for BIDS I/O"
 authors = ["The Aramis Lab"]
 license = "Apache-2.0"
 readme = "README.md"
-packages = [{include = "pydra"}]
+packages = [{include = "pydra.tasks"}]
 
 [tool.poetry.dependencies]
 python = "^3.7"
