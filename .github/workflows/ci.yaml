@@ -1,16 +1,25 @@
 name: ci
+
 on:
+  # Tigger this workflow on push events to the main branch.
   push:
     branches:
       - main
+  # Trigger this workflow on pull request events to the main branch.
   pull_request:
     branches:
       - main
+
+# Set permissions of the GITHUB_TOKEN to checkout the source repository.
 permissions:
   contents: read
+
+# Set the default Python version for jobs.
 env:
   DEFAULT_PYTHON_VERSION: '3.10'
+
 jobs:
+  # Run code checks.
   check:
     runs-on: ubuntu-latest
     steps:
@@ -26,6 +35,8 @@ jobs:
         run: make check-black
       - name: Check with isort
         run: make check-isort
+
+  # Run the test suite.
   test:
     strategy:
       fail-fast: false
