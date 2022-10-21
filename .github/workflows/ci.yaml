@@ -9,6 +9,8 @@ on:
   pull_request:
     branches:
       - main
+  # Run this workflow manually from the Actions tab.
+  workflow_dispatch:
 
 # Set permissions of the GITHUB_TOKEN to checkout the source repository.
 permissions:
