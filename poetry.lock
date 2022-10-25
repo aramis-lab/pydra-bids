@@ -358,7 +358,7 @@ test = ["pydata-sphinx-theme[doc]", "pytest"]
 
 [[package]]
 name = "pydra"
-version = "0.19"
+version = "0.20"
 description = "Pydra dataflow engine"
 category = "main"
 optional = false
@@ -619,7 +619,7 @@ testing = ["flake8 (<5)", "func-timeout", "jaraco.functools", "jaraco.itertools"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.7"
-content-hash = "e7df80b87aa65f95a6fc4ed023edc4ee75c622bdd03db0d3b47e11c1d317d644"
+content-hash = "22b577ffdeb64ff0ac218151eed3d4f432945d6341cb74732b9ca5dac86503e6"
 
 [metadata.files]
 alabaster = [
@@ -796,7 +796,7 @@ pydata-sphinx-theme = [
     {file = "pydata_sphinx_theme-0.11.0.tar.gz", hash = "sha256:5fb1751d68a4b8574f817296e925132835281332616eb2839ddac4ef4503cd99"},
 ]
 pydra = [
-    {file = "pydra-0.19-py3-none-any.whl", hash = "sha256:f0660e863de313b69cc0961d8c0cc37c917c724d53f4ad16c465c2c524155a98"},
+    {file = "pydra-0.20-py3-none-any.whl", hash = "sha256:8e6c823a046c1a2d9fa64a4215d0058bb1d47ad4d8e79f94909c55da75ecc747"},
 ]
 pygments = [
     {file = "Pygments-2.13.0-py3-none-any.whl", hash = "sha256:f643f331ab57ba3c9d89212ee4a2dabc6e94f117cf4eefde99a0574720d14c42"},
