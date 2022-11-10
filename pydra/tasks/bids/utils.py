@@ -1,4 +1,5 @@
 import os
+from typing import Iterable, Union
 
 import pydra
 
@@ -105,7 +106,12 @@ class BIDSDataReader:
             "bold": {"suffix": "bold", "extension": ["nii", "nii.gz"]},
         }
 
-    def __call__(self, dataset_path: os.PathLike) -> dict:
+    def __call__(
+        self,
+        dataset_path: os.PathLike,
+        subjects: Union[str, Iterable[str]] = None,
+        sessions: Union[str, Iterable[str]] = None,
+    ) -> dict:
         import ancpbids
 
         layout = ancpbids.BIDSLayout(ds_dir=os.fspath(dataset_path))
@@ -113,8 +119,8 @@ class BIDSDataReader:
         return {
             key: layout.get(
                 return_type="files",
-                subject="*",
-                session="*",
+                subjects=subjects or "*",
+                sessions=sessions or "*",
                 **query,
             )
             for key, query in list(self.output_query.items())
