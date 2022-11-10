@@ -5,9 +5,7 @@ def test_bfi_defaults():
     task = utils.BIDSFileInfo().to_task()
 
     assert "bids_file" in task.input_names
-    assert {"participant_id", "session_id", "entities", "suffix", "extension"} == set(
-        task.output_names
-    )
+    assert {"entities", "suffix", "extension"} == set(task.output_names)
 
 
 def test_bdr_defaults():
