@@ -1,4 +1,3 @@
-import dataclasses
 import os
 
 import pydra
@@ -6,7 +5,6 @@ import pydra
 __all__ = ["BIDSFileInfo", "BIDSDataReader"]
 
 
-@dataclasses.dataclass
 class BIDSFileInfo:
     """Parse components of a BIDS file.
 
@@ -34,7 +32,8 @@ class BIDSFileInfo:
     '18FFDG'
     """
 
-    output_entities: dict = dataclasses.field(default_factory=dict)
+    def __init__(self, output_entities: dict = None):
+        self.output_entities = output_entities or {}
 
     def __call__(self, bids_file: os.PathLike):
         from ancpbids.utils import parse_bids_name
@@ -99,14 +98,12 @@ class BIDSFileInfo:
         )
 
 
-@dataclasses.dataclass
 class BIDSDataReader:
-    output_query: dict = dataclasses.field(
-        default_factory=lambda: {
+    def __init__(self, output_query: dict = None):
+        self.output_query = output_query or {
             "T1w": {"suffix": "T1w", "extension": ["nii", "nii.gz"]},
             "bold": {"suffix": "bold", "extension": ["nii", "nii.gz"]},
-        },
-    )
+        }
 
     def __call__(self, dataset_path: os.PathLike) -> dict:
         import ancpbids
