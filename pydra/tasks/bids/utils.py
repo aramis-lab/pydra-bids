@@ -15,20 +15,26 @@ class BIDSFileInfo:
     Parse the main components of a BIDS file:
 
     >>> task = BIDSFileInfo().to_task()
-    >>> result = task(bids_file="sub-P01_ses-M00_T1w.nii.gz")
-    >>> result.output.participant_id
-    'sub-P01'
-    >>> result.output.session_id
-    'ses-M00'
+    >>> result = task(bids_file="sub-P01_T1w.nii.gz")
     >>> result.output.suffix
     'T1w'
     >>> result.output.extension
     '.nii.gz'
 
-    Additional source entities can be provided if specified as `output_entities`:
+    Extra entities can be provided if specified as `output_entities`:
 
-    >>> task = BIDSFileInfo(output_entities={"tracer": "trc"}).to_task()
-    >>> result = task(bids_file="sub-P01_trc-18FFDG_pet.nii.gz")
+    >>> task = BIDSFileInfo(
+    ...     output_entities={
+    ...         "subject": "sub",
+    ...         "session": "ses",
+    ...         "tracer": "trc",
+    ...     },
+    ... ).to_task()
+    >>> result = task(bids_file="sub-P01_ses-M00_trc-18FFDG_pet.nii.gz")
+    >>> result.output.subject
+    'P01'
+    >>> result.output.session
+    'M00'
     >>> result.output.tracer
     '18FFDG'
     """
@@ -45,22 +51,12 @@ class BIDSFileInfo:
         suffix = parsed["suffix"]
         extension = parsed["extension"]
 
-        # Extract participant ID
-        subject_label = entities.get("sub")
-        participant_id = f"sub-{subject_label}" if subject_label else None
-
-        # Extract session ID
-        session_label = entities.get("ses")
-        session_id = f"ses-{session_label}" if session_label else None
-
         # Extract extra entities to provide as output.
         extra_entities = [
             entities.get(entity) for entity in self.output_entities.values()
         ]
 
-        return tuple(
-            [participant_id, session_id, entities, suffix, extension] + extra_entities
-        )
+        return tuple([entities, suffix, extension] + extra_entities)
 
     @property
     def input_spec(self) -> pydra.specs.SpecInfo:
@@ -74,8 +70,6 @@ class BIDSFileInfo:
     def output_spec(self) -> pydra.specs.SpecInfo:
         # Default components parsed for all BIDS files.
         fields = [
-            ("participant_id", str),
-            ("session_id", str),
             ("entities", dict),
             ("suffix", str),
             ("extension", str),
