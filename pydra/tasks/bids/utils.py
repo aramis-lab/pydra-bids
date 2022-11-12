@@ -9,6 +9,11 @@ __all__ = ["BIDSFileInfo", "BIDSDataReader"]
 class BIDSFileInfo:
     """Parse components of a BIDS file.
 
+    Attributes
+    ----------
+    output_entities : dict, optional
+        Mapping of BIDS entities to output names.
+
     Examples
     --------
 
@@ -94,6 +99,13 @@ class BIDSFileInfo:
 
 
 class BIDSDataReader:
+    """Read files from a BIDS dataset.
+
+    Attributes
+    ----------
+    output_query : dict, optional
+        Mapping of BIDS file queries to output names. By default, fetch T1w and BOLD imaging files.
+    """
     def __init__(self, output_query: dict = None):
         self.output_query = output_query or {
             "T1w": {"suffix": "T1w", "extension": ["nii", "nii.gz"]},
