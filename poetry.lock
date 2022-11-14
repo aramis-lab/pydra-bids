@@ -8,7 +8,7 @@ python-versions = "*"
 
 [[package]]
 name = "ancpbids"
-version = "0.1.0.post0.dev9"
+version = "0.2.0"
 description = "Read/write/validate/query BIDS datasets"
 category = "main"
 optional = false
@@ -18,8 +18,8 @@ develop = false
 [package.source]
 type = "git"
 url = "https://github.com/ANCPLabOldenburg/ancp-bids"
-reference = "5c4a773ce8298d234486f6db02ae0fe36e9930df"
-resolved_reference = "5c4a773ce8298d234486f6db02ae0fe36e9930df"
+reference = "07867e11faf38d71b7534e60fca219b6d7c59dfa"
+resolved_reference = "07867e11faf38d71b7534e60fca219b6d7c59dfa"
 
 [[package]]
 name = "attrs"
@@ -622,7 +622,7 @@ testing = ["flake8 (<5)", "func-timeout", "jaraco.functools", "jaraco.itertools"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.7"
-content-hash = "74c497894ab06d1d839d2af745be3a41cbd5098ef5af80b2844467dd0735d416"
+content-hash = "164fb518374c9923bded6a98233545e8a9fdcf4500930e05ab7bfb53e0762267"
 
 [metadata.files]
 alabaster = [
