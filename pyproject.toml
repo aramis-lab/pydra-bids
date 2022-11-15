@@ -10,7 +10,7 @@ packages = [{include = "pydra"}]
 [tool.poetry.dependencies]
 python = "^3.7"
 pydra = "^0.20"
-ancpbids = {git = "https://github.com/ANCPLabOldenburg/ancp-bids", rev = "07867e11faf38d71b7534e60fca219b6d7c59dfa"}
+ancpbids = "^0.2.0"
 
 [tool.poetry.group.dev.dependencies]
 black = "^22.8.0"
