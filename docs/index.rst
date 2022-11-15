@@ -1,16 +1,17 @@
-.. pydra-bids documentation master file, created by
-   sphinx-quickstart on Sat Jun 18 15:42:50 2022.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
+About pydra-bids
+================
 
-Welcome to pydra-bids's documentation!
-======================================
+`Pydra`_ is a dataflow engine which provides a set of lightweight abstractions for DAG construction, manipulation, and distributed execution.
+
+`BIDS`_ is a specification for organizing and describing neuroimaging data.
+
+pydra-bids provides Pydra tasks for working with BIDS datasets.
 
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
 
-
+   api
 
 Indices and tables
 ==================
@@ -18,3 +19,6 @@ Indices and tables
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
+
+.. _Pydra: https://nipype.github.io/pydra/
+.. _BIDS: https://bids-specification.readthedocs.io/

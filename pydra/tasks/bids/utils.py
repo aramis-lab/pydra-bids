@@ -105,6 +105,20 @@ class BIDSDataReader:
     ----------
     output_query : dict, optional
         Mapping of BIDS file queries to output names. By default, fetch T1w and BOLD imaging files.
+
+    Examples
+    --------
+
+    Fetch all T1w scans and make them available under the "out" named output:
+
+    >>> task = BIDSDataReader(
+    ...     output_query={
+    ...         "out": {
+    ...             "suffix": "T1w",
+    ...             "extension": ["nii", "nii.gz"],
+    ...         },
+    ...     },
+    ... ).to_task()
     """
 
     def __init__(self, output_query: dict = None):
