@@ -8,7 +8,7 @@ python-versions = "*"
 
 [[package]]
 name = "ancpbids"
-version = "0.2.0"
+version = "0.2.1"
 description = "Read/write/validate/query BIDS datasets"
 category = "main"
 optional = false
@@ -615,7 +615,7 @@ testing = ["flake8 (<5)", "func-timeout", "jaraco.functools", "jaraco.itertools"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.7"
-content-hash = "0ff1d54b16a28cfedc6a4ac5f66b360bb6d70f0e2af479d8667116af128afd71"
+content-hash = "51ea6f2cd0b9084bc3b4bdaa0ccbafb5fd77d0fb0a87b6eab5f0565ed5f7dabb"
 
 [metadata.files]
 alabaster = [
@@ -623,8 +623,8 @@ alabaster = [
     {file = "alabaster-0.7.12.tar.gz", hash = "sha256:a661d72d58e6ea8a57f7a86e37d86716863ee5e92788398526d58b26a4e4dc02"},
 ]
 ancpbids = [
-    {file = "ancpbids-0.2.0-py3-none-any.whl", hash = "sha256:f0f3fb56f101ee5ecc6870882aa88972ca7544ac337919bfcb1220fbbb3be3e8"},
-    {file = "ancpbids-0.2.0.tar.gz", hash = "sha256:99a644cb99a7aa5fda3b7f944a0227bd76d25a02c3d73869e873cec4c9f4158a"},
+    {file = "ancpbids-0.2.1-py3-none-any.whl", hash = "sha256:feefcc08caa29f316bbc58026f7e4be42d894164c00eed6e55ad313823a77fc2"},
+    {file = "ancpbids-0.2.1.tar.gz", hash = "sha256:b0dfb67c169418af330a442d81776fc4ca98d30555c04afc57fb77c699021d71"},
 ]
 attrs = [
     {file = "attrs-22.1.0-py2.py3-none-any.whl", hash = "sha256:86efa402f67bf2df34f51a335487cf46b1ec130d02b8d39fd248abfd30da551c"},
