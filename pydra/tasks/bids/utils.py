@@ -132,20 +132,23 @@ class BIDSDataReader:
         dataset_path: os.PathLike,
         subjects: Union[str, Iterable[str]] = None,
         sessions: Union[str, Iterable[str]] = None,
-    ) -> dict:
+    ):
         import ancpbids
 
         layout = ancpbids.BIDSLayout(ds_dir=os.fspath(dataset_path))
 
-        return {
-            key: layout.get(
+        files = tuple(
+            layout.get(
                 return_type="files",
                 subjects=subjects or "*",
                 sessions=sessions or "*",
                 **query,
             )
             for key, query in list(self.output_query.items())
-        }
+        )
+
+        # Flatten results if single query.
+        return files if len(self.output_query) > 1 else files[0]
 
     @property
     def input_spec(self) -> pydra.specs.SpecInfo:
