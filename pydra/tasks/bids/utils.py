@@ -3,7 +3,7 @@ from typing import Iterable, Union
 
 import pydra
 
-__all__ = ["BIDSFileInfo", "BIDSDataReader"]
+__all__ = ["BIDSFileInfo", "BIDSDatasetReader"]
 
 
 class BIDSFileInfo:
@@ -98,7 +98,7 @@ class BIDSFileInfo:
         )
 
 
-class BIDSDataReader:
+class BIDSDatasetReader:
     """Read files from a BIDS dataset.
 
     Attributes
@@ -111,7 +111,7 @@ class BIDSDataReader:
 
     Fetch all T1w scans and make them available under the "out" named output:
 
-    >>> task = BIDSDataReader(
+    >>> task = BIDSDatasetReader(
     ...     output_query={
     ...         "out": {
     ...             "suffix": "T1w",

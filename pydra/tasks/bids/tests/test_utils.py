@@ -9,7 +9,7 @@ def test_bfi_defaults():
 
 
 def test_bdr_defaults():
-    task = utils.BIDSDataReader().to_task()
+    task = utils.BIDSDatasetReader().to_task()
 
     assert "dataset_path" in task.input_names
     assert {"T1w", "bold"} == set(task.output_names)
