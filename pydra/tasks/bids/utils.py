@@ -20,7 +20,7 @@ class BIDSFileInfo:
     Parse the main components of a BIDS file:
 
     >>> task = BIDSFileInfo().to_task()
-    >>> result = task(bids_file="sub-P01_T1w.nii.gz")
+    >>> result = task(file_path="sub-P01_T1w.nii.gz")
     >>> result.output.suffix
     'T1w'
     >>> result.output.extension
@@ -35,7 +35,7 @@ class BIDSFileInfo:
     ...         "tracer": "trc",
     ...     },
     ... ).to_task()
-    >>> result = task(bids_file="sub-P01_ses-M00_trc-18FFDG_pet.nii.gz")
+    >>> result = task(file_path="sub-P01_ses-M00_trc-18FFDG_pet.nii.gz")
     >>> result.output.subject
     'P01'
     >>> result.output.session
@@ -47,10 +47,10 @@ class BIDSFileInfo:
     def __init__(self, output_entities: dict = None):
         self.output_entities = output_entities or {}
 
-    def __call__(self, bids_file: os.PathLike):
+    def __call__(self, file_path: os.PathLike):
         from ancpbids.utils import parse_bids_name
 
-        parsed = parse_bids_name(os.fspath(bids_file))
+        parsed = parse_bids_name(os.fspath(file_path))
 
         entities = parsed["entities"]
         suffix = parsed["suffix"]
@@ -67,7 +67,7 @@ class BIDSFileInfo:
     def input_spec(self) -> pydra.specs.SpecInfo:
         return pydra.specs.SpecInfo(
             name="BIDSFileInfoInput",
-            fields=[("bids_file", os.PathLike)],
+            fields=[("file_path", os.PathLike)],
             bases=(pydra.specs.BaseSpec,),
         )
 
