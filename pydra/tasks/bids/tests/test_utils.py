@@ -12,4 +12,5 @@ def test_bdr_defaults():
     task = utils.BIDSDatasetReader().to_task()
 
     assert "dataset_path" in task.input_names
-    assert {"T1w", "bold"} == set(task.output_names)
+    assert "dataset_description" in task.output_names
+    assert {"T1w", "bold"}.issubset(task.output_names)

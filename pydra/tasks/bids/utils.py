@@ -137,6 +137,8 @@ class BIDSDatasetReader:
 
         layout = ancpbids.BIDSLayout(ds_dir=os.fspath(dataset_path))
 
+        dataset_description = layout.get_dataset_description(all_=False)
+
         files = tuple(
             layout.get(
                 return_type="files",
@@ -147,13 +149,12 @@ class BIDSDatasetReader:
             for key, query in list(self.output_query.items())
         )
 
-        # Flatten results if single query.
-        return files if len(self.output_query) > 1 else files[0]
+        return (dataset_description,) + files
 
     @property
     def input_spec(self) -> pydra.specs.SpecInfo:
         return pydra.specs.SpecInfo(
-            name="BIDSDataReaderInput",
+            name="BIDSDatasetReaderInput",
             fields=[("dataset_path", os.PathLike)],
             bases=(pydra.specs.BaseSpec,),
         )
@@ -161,8 +162,9 @@ class BIDSDatasetReader:
     @property
     def output_spec(self) -> pydra.specs.SpecInfo:
         return pydra.specs.SpecInfo(
-            name="BIDSDataReaderOutput",
-            fields=[(key, str) for key in list(self.output_query.keys())],
+            name="BIDSDatasetReaderOutput",
+            fields=[("dataset_description", dict)]
+            + [(key, str) for key in list(self.output_query.keys())],
             bases=(pydra.specs.BaseSpec,),
         )
 
