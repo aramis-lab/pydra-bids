@@ -122,10 +122,7 @@ class BIDSDatasetReader:
     """
 
     def __init__(self, output_query: dict = None):
-        self.output_query = output_query or {
-            "T1w": {"suffix": "T1w", "extension": ["nii", "nii.gz"]},
-            "bold": {"suffix": "bold", "extension": ["nii", "nii.gz"]},
-        }
+        self.output_query = output_query
 
     def __call__(
         self,
@@ -139,17 +136,21 @@ class BIDSDatasetReader:
 
         dataset_description = layout.get_dataset_description(all_=False)
 
-        files = tuple(
-            layout.get(
-                return_type="files",
-                subjects=subjects or "*",
-                sessions=sessions or "*",
-                **query,
+        files = (
+            tuple(
+                layout.get(
+                    return_type="files",
+                    subjects=subjects or "*",
+                    sessions=sessions or "*",
+                    **query,
+                )
+                for key, query in list(self.output_query.items())
             )
-            for key, query in list(self.output_query.items())
+            if self.output_query
+            else None
         )
 
-        return (dataset_description,) + files
+        return (dataset_description,) + files if files else dataset_description
 
     @property
     def input_spec(self) -> pydra.specs.SpecInfo:
@@ -161,11 +162,12 @@ class BIDSDatasetReader:
 
     @property
     def output_spec(self) -> pydra.specs.SpecInfo:
+        fields = [("dataset_description", dict)]
+        if self.output_query:
+            fields += [(key, str) for key in list(self.output_query.keys())]
+
         return pydra.specs.SpecInfo(
-            name="BIDSDatasetReaderOutput",
-            fields=[("dataset_description", dict)]
-            + [(key, str) for key in list(self.output_query.keys())],
-            bases=(pydra.specs.BaseSpec,),
+            name="BIDSDatasetReaderOutput", fields=fields, bases=(pydra.specs.BaseSpec,)
         )
 
     def to_task(
