@@ -18,6 +18,7 @@ ancpbids = "^0.2.1"
 [tool.poetry.group.dev.dependencies]
 black = "^22.8.0"
 isort = "^5.10.1"
+codespell = {extras = ["toml"], version = "^2.2.2"}
 
 [tool.poetry.group.docs.dependencies]
 sphinx = "^5.2.3"
@@ -44,3 +45,9 @@ target-version = ["py37"]
 [tool.isort]
 py_version = 37
 profile = "black"
+
+[tool.codespell]
+summary = ''
+skip = ".git"
+quiet-level = 3
+check-filenames = ''
