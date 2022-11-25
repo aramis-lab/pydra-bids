@@ -201,9 +201,16 @@ class BIDSDatasetReader:
 
 
 class BIDSDatasetWriter:
-    """Write files to a BIDS dataset."""
+    """Write files to a BIDS dataset.
 
-    # TODO: Add parameterization.
+    Examples
+    --------
+    >>> task = BIDSDatasetWriter().to_task(
+    ...     dataset_path="derivative",
+    ...     dataset_description={"Name": "pipeline-foo"},
+    ... )
+    """
+
     def __init__(self):
         pass
 
