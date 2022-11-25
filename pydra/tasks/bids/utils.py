@@ -198,3 +198,43 @@ class BIDSDatasetReader:
             name=name,
             **kwargs,
         )
+
+
+class BIDSDatasetWriter:
+    """Write files to a BIDS dataset."""
+
+    # TODO: Add parameterization.
+    def __init__(self):
+        pass
+
+    # TODO: Add task implementation.
+    def __call__(self):
+        pass
+
+    @property
+    def get_input_spec(self) -> pydra.specs.SpecInfo:
+        return pydra.specs.SpecInfo(
+            name="BIDSDatasetWriterInput",
+            fields=[
+                ("dataset_path", os.PathLike),
+                ("dataset_description", dict),
+            ],
+            bases=(pydra.specs.BaseSpec,),
+        )
+
+    @property
+    def get_output_spec(self) -> pydra.specs.SpecInfo:
+        return pydra.specs.SpecInfo(
+            name="BIDSDatasetWriterOutput",
+            fields=[],
+            bases=(pydra.specs.BaseSpec,),
+        )
+
+    def to_task(self, name: str = "bids_dataset_writer", **kwargs):
+        return pydra.engine.task.FunctionTask(
+            func=self,
+            input_spec=self.get_input_spec,
+            output_spec=self.get_output_spec,
+            name=name,
+            **kwargs,
+        )
