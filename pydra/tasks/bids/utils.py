@@ -210,7 +210,7 @@ class BIDSDatasetWriter:
     def __call__(self, dataset_path: os.PathLike, dataset_description: dict):
         import ancpbids
 
-        dataset = ancpbids.model.create_dataset(name="derivative")
+        dataset = ancpbids.model.create_dataset(name=dataset_description["Name"])
         dataset.dataset_description.Name = dataset_description["Name"]
         dataset.dataset_description.BIDSVersion = ancpbids.model_latest.VERSION
         dataset.dataset_description.DatasetType = "derivative"
