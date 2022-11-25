@@ -207,9 +207,15 @@ class BIDSDatasetWriter:
     def __init__(self):
         pass
 
-    # TODO: Add task implementation.
-    def __call__(self):
-        pass
+    def __call__(self, dataset_path: os.PathLike, dataset_description: dict):
+        import ancpbids
+
+        dataset = ancpbids.model.create_dataset(name="derivative")
+        dataset.dataset_description.Name = dataset_description["Name"]
+        dataset.dataset_description.BIDSVersion = ancpbids.model_latest.VERSION
+        dataset.dataset_description.DatasetType = "derivative"
+
+        ancpbids.save_dataset(dataset, os.fspath(dataset_path))
 
     @property
     def get_input_spec(self) -> pydra.specs.SpecInfo:
