@@ -1,5 +1,5 @@
 import os
-from typing import Iterable, Union
+from typing import Iterable, Optional, Union
 
 import pydra
 
@@ -156,7 +156,11 @@ class BIDSDatasetReader:
     def input_spec(self) -> pydra.specs.SpecInfo:
         return pydra.specs.SpecInfo(
             name="BIDSDatasetReaderInput",
-            fields=[("dataset_path", os.PathLike)],
+            fields=[
+                ("dataset_path", os.PathLike),
+                ("subjects", Optional[Union[str, Iterable[str]]]),
+                ("sessions", Optional[Union[str, Iterable[str]]]),
+            ],
             bases=(pydra.specs.BaseSpec,),
         )
 
