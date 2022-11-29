@@ -42,6 +42,13 @@ class BIDSFileInfo:
     'ses-M00'
     >>> result.output.tracer_id
     'trc-18FFDG'
+
+    If some output entities are not present, their corresponding value is set to None:
+
+    >>> task = BIDSFileInfo(output_entities={"session_id": "ses"}).to_task()
+    >>> result = task(file_path="sub-P01_T1w.nii.gz")
+    >>> result.output.session_id is None
+    True
     """
 
     def __init__(self, output_entities: dict = None):
@@ -58,8 +65,11 @@ class BIDSFileInfo:
 
         # Extract extra entities to provide as output.
         extra_entities = [
-            f"{entity}-{entities.get(entity)}"
-            for entity in self.output_entities.values()
+            f"{prefix}-{value}" if value else None
+            for prefix, value in [
+                (entity, entities.get(entity))
+                for entity in self.output_entities.values()
+            ]
         ]
 
         return tuple([entities, suffix, extension] + extra_entities)
@@ -79,7 +89,7 @@ class BIDSFileInfo:
             ("entities", dict),
             ("suffix", str),
             ("extension", str),
-        ] + [(entity, str) for entity in self.output_entities.keys()]
+        ] + [(entity, Optional[str]) for entity in self.output_entities.keys()]
 
         return pydra.specs.SpecInfo(
             name="BIDSFileInfoOutput",
