@@ -8,6 +8,13 @@ def test_bfi_defaults():
     assert {"entities", "suffix", "extension"} == set(task.output_names)
 
 
+def test_bfi_with_output_entities():
+    output_entities = {"participant_id": "sub", "run_id": "run"}
+    task = utils.BIDSFileInfo(output_entities=output_entities).to_task()
+
+    assert set(output_entities.keys()).issubset(task.output_names)
+
+
 def test_bdr_defaults():
     task = utils.BIDSDatasetReader().to_task()
 
@@ -17,7 +24,7 @@ def test_bdr_defaults():
 
 
 def test_bdr_with_output_query():
-    task = utils.BIDSDatasetReader(
-        output_query={"T1w": {"suffix": "T1w"}, "bold": {"suffix": "bold"}}
-    ).to_task()
-    assert {"T1w", "bold"}.issubset(task.output_names)
+    output_query = {"T1w": {"suffix": "T1w"}, "bold": {"suffix": "bold"}}
+    task = utils.BIDSDatasetReader(output_query=output_query).to_task()
+
+    assert set(output_query.keys()).issubset(task.output_names)

@@ -30,18 +30,18 @@ class BIDSFileInfo:
 
     >>> task = BIDSFileInfo(
     ...     output_entities={
-    ...         "subject": "sub",
-    ...         "session": "ses",
-    ...         "tracer": "trc",
+    ...         "participant_id": "sub",
+    ...         "session_id": "ses",
+    ...         "tracer_id": "trc",
     ...     },
     ... ).to_task()
     >>> result = task(file_path="sub-P01_ses-M00_trc-18FFDG_pet.nii.gz")
-    >>> result.output.subject
-    'P01'
-    >>> result.output.session
-    'M00'
-    >>> result.output.tracer
-    '18FFDG'
+    >>> result.output.participant_id
+    'sub-P01'
+    >>> result.output.session_id
+    'ses-M00'
+    >>> result.output.tracer_id
+    'trc-18FFDG'
     """
 
     def __init__(self, output_entities: dict = None):
@@ -58,7 +58,8 @@ class BIDSFileInfo:
 
         # Extract extra entities to provide as output.
         extra_entities = [
-            entities.get(entity) for entity in self.output_entities.values()
+            f"{entity}-{entities.get(entity)}"
+            for entity in self.output_entities.values()
         ]
 
         return tuple([entities, suffix, extension] + extra_entities)
