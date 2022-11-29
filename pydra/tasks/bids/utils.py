@@ -1,5 +1,5 @@
 import os
-from typing import Iterable, Optional, Union
+from typing import Optional
 
 import pydra
 
@@ -127,8 +127,8 @@ class BIDSDatasetReader:
     def __call__(
         self,
         dataset_path: os.PathLike,
-        subjects: Union[str, Iterable[str]] = None,
-        sessions: Union[str, Iterable[str]] = None,
+        participant_id: Optional[str] = None,
+        session_id: Optional[str] = None,
     ):
         import ancpbids
 
@@ -136,12 +136,15 @@ class BIDSDatasetReader:
 
         dataset_description = layout.get_dataset_description(all_=False)
 
+        subjects = participant_id.replace("sub-", "") if participant_id else "*"
+        sessions = session_id.replace("ses-", "") if session_id else "*"
+
         files = (
             tuple(
                 layout.get(
                     return_type="files",
-                    subjects=subjects or "*",
-                    sessions=sessions or "*",
+                    subjects=subjects,
+                    sessions=sessions,
                     **query,
                 )
                 for key, query in list(self.output_query.items())
@@ -158,8 +161,8 @@ class BIDSDatasetReader:
             name="BIDSDatasetReaderInput",
             fields=[
                 ("dataset_path", os.PathLike),
-                ("subjects", Optional[Union[str, Iterable[str]]]),
-                ("sessions", Optional[Union[str, Iterable[str]]]),
+                ("participant_id", Optional[str]),
+                ("session_id", Optional[str]),
             ],
             bases=(pydra.specs.BaseSpec,),
         )
