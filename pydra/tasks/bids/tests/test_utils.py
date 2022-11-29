@@ -8,6 +8,13 @@ def test_bfi_defaults():
     assert {"entities", "suffix", "extension"} == set(task.output_names)
 
 
+def test_bfi_with_output_entities():
+    output_entities = {"participant_id": "sub", "run_id": "run"}
+    task = utils.BIDSFileInfo(output_entities=output_entities).to_task()
+
+    assert set(output_entities.keys()).issubset(task.output_names)
+
+
 def test_bdr_defaults():
     task = utils.BIDSDatasetReader().to_task()
 
