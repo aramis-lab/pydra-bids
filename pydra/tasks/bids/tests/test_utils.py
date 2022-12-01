@@ -28,3 +28,10 @@ def test_bdr_with_output_query():
     task = utils.BIDSDatasetReader(output_query=output_query).to_task()
 
     assert set(output_query.keys()).issubset(task.output_names)
+
+
+def test_bdw_defaults():
+    task = utils.BIDSDatasetWriter().to_task()
+
+    assert "dataset_path" in task.input_names
+    assert "dataset_description" in task.input_names
