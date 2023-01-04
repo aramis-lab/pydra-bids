@@ -22,7 +22,6 @@ codespell = {extras = ["toml"], version = "^2.2.2"}
 
 [tool.poetry.group.docs.dependencies]
 sphinx = "^5.2.3"
-numpydoc = "^1.4.0"
 pydata-sphinx-theme = "^0.11.0"
 
 [tool.poetry.group.test.dependencies]
