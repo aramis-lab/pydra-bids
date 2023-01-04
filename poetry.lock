@@ -496,14 +496,14 @@ testing = ["pytest", "pytest-benchmark"]
 
 [[package]]
 name = "pydata-sphinx-theme"
-version = "0.11.0"
+version = "0.12.0"
 description = "Bootstrap-based Sphinx theme from the PyData community"
 category = "dev"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "pydata_sphinx_theme-0.11.0-py3-none-any.whl", hash = "sha256:64f1fc4c79a1f066b913541116cd5a7e83e140ba0e983509eedd9e66e1f948c8"},
-    {file = "pydata_sphinx_theme-0.11.0.tar.gz", hash = "sha256:5fb1751d68a4b8574f817296e925132835281332616eb2839ddac4ef4503cd99"},
+    {file = "pydata_sphinx_theme-0.12.0-py3-none-any.whl", hash = "sha256:c17dbab67a3774f06f34f6378e896fcd0668cc8b5da1c1ba017e65cf1df0af58"},
+    {file = "pydata_sphinx_theme-0.12.0.tar.gz", hash = "sha256:7a07c3ac1fb1cfbb5f7d1e147a9500fb120e329d610e0fa2caac4a645141bdd9"},
 ]
 
 [package.dependencies]
@@ -514,9 +514,9 @@ pygments = ">=2.7"
 sphinx = ">=4.2"
 
 [package.extras]
-coverage = ["codecov", "pydata-sphinx-theme[test]", "pytest-cov"]
+coverage = ["codecov", "colorama", "pydata-sphinx-theme[test]", "pytest-cov"]
 dev = ["nox", "pre-commit", "pydata-sphinx-theme[coverage]", "pyyaml"]
-doc = ["ablog", "jupyter_sphinx", "matplotlib", "myst-nb", "nbsphinx", "numpy", "numpydoc", "pandas", "plotly", "pytest", "pytest-regressions", "rich", "sphinx-copybutton", "sphinx-design", "sphinx-sitemap", "sphinx-togglebutton", "sphinxext-rediraffe", "xarray"]
+doc = ["ablog", "jupyter_sphinx", "linkify-it-py", "matplotlib", "myst-nb", "nbsphinx", "numpy", "numpydoc", "pandas", "plotly", "pytest", "pytest-regressions", "rich", "sphinx-copybutton", "sphinx-design", "sphinx-sitemap", "sphinx-togglebutton", "sphinxext-rediraffe", "xarray"]
 test = ["pydata-sphinx-theme[doc]", "pytest"]
 
 [[package]]
@@ -869,4 +869,4 @@ testing = ["flake8 (<5)", "func-timeout", "jaraco.functools", "jaraco.itertools"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.7"
-content-hash = "3f54847cfc7ed7a6c4b1f73719eb84f66f617f62554233c4bb15a5448e95b2a1"
+content-hash = "52aa32725f89b80d792c9b29ab5b3bdc728c3aa030382486aa4f68c6933e6824"
