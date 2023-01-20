@@ -7,45 +7,57 @@
 
 Pydra tasks for BIDS I/O.
 
-[Pydra] is a dataflow engine which provides a set of lightweight abstractions
+[Pydra][pydra] is a dataflow engine
+which provides a set of lightweight abstractions
 for DAG construction, manipulation, and distributed execution.
 
-[BIDS] defines standards for organizing neuroimaging files and metadata.
+[BIDS][bids] defines standards for organizing neuroimaging files and metadata.
 
 This project provides tasks for reading from and writing to BIDS datasets.
 
+**Table of contents**
+
+- [Installation](#installation)
+- [Development](#development)
+- [Licensing](#licensing)
+
+## Installation
+
+```console
+pip install pydra-bids
+```
+
 ## Development
 
-This project is managed using [Poetry].
-
-To install, check and test the code:
+This project is managed with [Hatch][hatch]:
 
 ```console
-make
+pipx install hatch
 ```
 
-To run the test suite when hacking:
+To run the test suite:
 
 ```console
-make test
+hatch run test:no-cov
 ```
 
-To format the code before review:
+To fix linting issues:
 
 ```console
-make format
+hatch run lint:fix
 ```
 
-To build the project's documentation:
+To check the documentation:
 
 ```console
-make docs
+hatch run docs:serve --open-browser
 ```
 
 ## Licensing
 
-This project is released under the terms of the Apache License 2.0.
+This project is released under the terms of the [Apache License, Version 2.0][license].
 
-[Pydra]: https://nipype.github.io/pydra
-[BIDS]: https://bids-specification.readthedocs.io
-[Poetry]: https://python-poetry.org
+[pydra]: https://nipype.github.io/pydra
+[bids]: https://bids-specification.readthedocs.io
+[hatch]: https://hatch.pypa.io
+[license]: https://opensource.org/licenses/Apache-2.0
