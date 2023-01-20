@@ -1,6 +1,6 @@
 import os
 import pathlib
-from typing import Optional
+import typing as ty
 
 import pydra
 
@@ -90,7 +90,7 @@ class BIDSFileInfo:
             ("entities", dict),
             ("suffix", str),
             ("extension", str),
-        ] + [(entity, Optional[str]) for entity in self.output_entities.keys()]
+        ] + [(entity, ty.Optional[str]) for entity in self.output_entities.keys()]
 
         return pydra.specs.SpecInfo(
             name="BIDSFileInfoOutput",
@@ -139,8 +139,8 @@ class BIDSDatasetReader:
     def __call__(
         self,
         dataset_path: os.PathLike,
-        participant_id: Optional[str] = None,
-        session_id: Optional[str] = None,
+        participant_id: ty.Optional[str] = None,
+        session_id: ty.Optional[str] = None,
     ):
         import ancpbids
 
@@ -173,8 +173,8 @@ class BIDSDatasetReader:
             name="BIDSDatasetReaderInput",
             fields=[
                 ("dataset_path", os.PathLike),
-                ("participant_id", Optional[str]),
-                ("session_id", Optional[str]),
+                ("participant_id", ty.Optional[str]),
+                ("session_id", ty.Optional[str]),
             ],
             bases=(pydra.specs.BaseSpec,),
         )
