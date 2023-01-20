@@ -1,5 +1,10 @@
 # pydra-bids
 
+[![PyPI - Version](https://img.shields.io/pypi/v/pydra-bids.svg)](https://pypi.org/project/pydra-bids)
+[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/pydra-bids.svg)](https://pypi.org/project/pydra-bids)
+
+---
+
 Pydra tasks for BIDS I/O.
 
 [Pydra] is a dataflow engine which provides a set of lightweight abstractions
