@@ -1,4 +1,5 @@
 import os
+import pathlib
 from typing import Optional
 
 import pydra
@@ -57,7 +58,7 @@ class BIDSFileInfo:
     def __call__(self, file_path: os.PathLike):
         from ancpbids.utils import parse_bids_name
 
-        parsed = parse_bids_name(os.fspath(file_path))
+        parsed = parse_bids_name(pathlib.PurePath(file_path).name)
 
         entities = parsed["entities"]
         suffix = parsed["suffix"]
