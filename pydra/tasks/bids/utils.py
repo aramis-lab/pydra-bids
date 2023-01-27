@@ -2,6 +2,8 @@ import os
 import pathlib
 import typing as ty
 
+import ancpbids
+
 import pydra
 
 __all__ = ["BIDSFileInfo", "BIDSDatasetReader"]
@@ -56,9 +58,7 @@ class BIDSFileInfo:
         self.output_entities = output_entities or {}
 
     def __call__(self, file_path: os.PathLike):
-        from ancpbids.utils import parse_bids_name
-
-        parsed = parse_bids_name(pathlib.PurePath(file_path).name)
+        parsed = ancpbids.utils.parse_bids_name(pathlib.PurePath(file_path).name)
 
         entities = parsed["entities"]
         suffix = parsed["suffix"]
@@ -142,18 +142,15 @@ class BIDSDatasetReader:
         participant_id: ty.Optional[str] = None,
         session_id: ty.Optional[str] = None,
     ):
-        import ancpbids
-
-        layout = ancpbids.BIDSLayout(ds_dir=os.fspath(dataset_path))
-
-        dataset_description = layout.get_dataset_description(all_=False)
+        dataset = ancpbids.load_dataset(os.fspath(dataset_path))
+        dataset_description = dict(dataset.dataset_description)
 
         subjects = participant_id.replace("sub-", "") if participant_id else "*"
         sessions = session_id.replace("ses-", "") if session_id else "*"
 
         files = (
             tuple(
-                layout.get(
+                dataset.query(
                     return_type="files",
                     subjects=subjects,
                     sessions=sessions,
