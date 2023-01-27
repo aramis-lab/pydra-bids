@@ -199,3 +199,56 @@ class BIDSDatasetReader:
             name=name,
             **kwargs,
         )
+
+
+class BIDSDatasetWriter:
+    """Write files to a BIDS dataset.
+
+    Examples
+    --------
+    >>> task = BIDSDatasetWriter().to_task(
+    ...     dataset_path="derivative",
+    ...     dataset_description={"Name": "pipeline-foo"},
+    ... )
+    """
+
+    def __init__(self):
+        pass
+
+    def __call__(self, dataset_path: os.PathLike, dataset_description: dict):
+        import ancpbids
+
+        dataset = ancpbids.model.create_dataset(name=dataset_description["Name"])
+        dataset.dataset_description.Name = dataset_description["Name"]
+        dataset.dataset_description.BIDSVersion = ancpbids.model_latest.VERSION
+        dataset.dataset_description.DatasetType = "derivative"
+
+        ancpbids.save_dataset(dataset, os.fspath(dataset_path))
+
+    @property
+    def get_input_spec(self) -> pydra.specs.SpecInfo:
+        return pydra.specs.SpecInfo(
+            name="BIDSDatasetWriterInput",
+            fields=[
+                ("dataset_path", os.PathLike),
+                ("dataset_description", dict),
+            ],
+            bases=(pydra.specs.BaseSpec,),
+        )
+
+    @property
+    def get_output_spec(self) -> pydra.specs.SpecInfo:
+        return pydra.specs.SpecInfo(
+            name="BIDSDatasetWriterOutput",
+            fields=[],
+            bases=(pydra.specs.BaseSpec,),
+        )
+
+    def to_task(self, name: str = "bids_dataset_writer", **kwargs):
+        return pydra.engine.task.FunctionTask(
+            func=self,
+            input_spec=self.get_input_spec,
+            output_spec=self.get_output_spec,
+            name=name,
+            **kwargs,
+        )
