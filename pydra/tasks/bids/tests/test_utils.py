@@ -2,29 +2,29 @@ import pydra.tasks.bids.utils as utils
 
 
 def test_bfi_defaults():
-    task = utils.BIDSFileInfo().to_task()
+    task = utils.parse_bids_name()
 
     assert "file_path" in task.input_names
     assert {"entities", "suffix", "extension"} == set(task.output_names)
 
 
 def test_bfi_with_output_entities():
-    output_entities = {"participant_id": "sub", "run_id": "run"}
-    task = utils.BIDSFileInfo(output_entities=output_entities).to_task()
+    output_entities = {"sub": "sub", "run": "run"}
+    task = utils.parse_bids_name(output_entities=output_entities)
 
     assert set(output_entities.keys()).issubset(task.output_names)
 
 
 def test_bdr_defaults():
-    task = utils.BIDSDatasetReader().to_task()
+    task = utils.read_bids_dataset()
 
     assert "dataset_path" in task.input_names
     assert {"participant_id", "session_id"}.issubset(task.input_names)
     assert "dataset_description" in task.output_names
 
 
-def test_bdr_with_output_query():
-    output_query = {"T1w": {"suffix": "T1w"}, "bold": {"suffix": "bold"}}
-    task = utils.BIDSDatasetReader(output_query=output_query).to_task()
+def test_bdr_with_output_queries():
+    output_queries = {"T1w": {"suffix": "T1w"}, "bold": {"suffix": "bold"}}
+    task = utils.read_bids_dataset(output_queries=output_queries)
 
-    assert set(output_query.keys()).issubset(task.output_names)
+    assert set(output_queries.keys()).issubset(task.output_names)

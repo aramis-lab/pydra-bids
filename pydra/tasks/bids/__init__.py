@@ -2,9 +2,6 @@
 
 Import Pydra's engine and BIDS tasks.
 
->>> import pydra.engine
->>> import pydra.tasks.bids
+>>> from pydra.tasks import bids
 """
-from .utils import BIDSDatasetReader, BIDSFileInfo
-
-__all__ = ["BIDSDatasetReader", "BIDSFileInfo"]
+from .utils import parse_bids_name, read_bids_dataset
