@@ -1,8 +1,12 @@
 import os
 import pathlib
 import typing as ty
+import warnings
 
-import ancpbids
+with warnings.catch_warnings():
+    # UserWarning: Development of the BIDSLayout interface will continue in the pybids project.
+    warnings.simplefilter("ignore")
+    import ancpbids
 
 import pydra
 
