@@ -45,7 +45,7 @@ repository = "https://github.com/aramis-lab/pydra-bids"
 only-include = ["pydra/tasks/bids"]
 
 [tool.black]
-extend-exclude = ["docs"]
+extend-exclude = "docs"
 
 [tool.codespell]
 quiet-level = 3
